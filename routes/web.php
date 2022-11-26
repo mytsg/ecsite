@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\User\ProductController;
+use App\Http\Controllers\User\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,5 +16,17 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('user.welcome');
 });
+
+Route::get('/dashboard', function () {
+    return view('user.dashboard');
+})->middleware(['auth:users'])->name('dashboard');
+
+Route::resource('products', ProductController::class)
+->middleware('auth:users');
+
+Route::get('/profile/{userId}',[UserController::class,'profile'])
+->name('profile');
+
+require __DIR__.'/auth.php';
