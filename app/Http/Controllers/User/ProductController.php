@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Auth;
 use InterventionImage;
 use Illuminate\Support\Facades\Storage; 
 use App\Models\User;
+use App\Models\Like;
+use Illuminate\Support\Facades\DB;
 
 
 class ProductController extends Controller
@@ -88,8 +90,9 @@ class ProductController extends Controller
     {
         $product = Product::findOrFail($id);
         $user = User::findOrFail($product->user_id);
-
-        // dd($product);
+        // $like = Like::select('user_id', 'product_id')
+        //     ->where('product_id',$id)
+        //     ->first();
 
         return view('user.products.show',compact('product','user'));
     }
@@ -125,6 +128,8 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Product::findOrFail($id)->delete();
+
+        return redirect()->route('user.products.index');
     }
 }

@@ -15,14 +15,14 @@
                             <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">商品一覧</h1>
                             <p class="lg:w-2/3 mx-auto leading-relaxed text-base">販売中の商品一覧を表示しています。</p>
                         </div>
-                            <div class="flex flex-wrap -m-4">
+                        <div class="flex flex-wrap -m-4">
                             @foreach($products as $product)
-                                <div class="px-4 md:w-1/3">
+                                <div class="px-4 md:w-1/3 my-4">
                                     <div class="h-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden">
                                         <img class="w-full object-cover object-center" src="{{ asset('storage/products/'.$product->filename) }}">
                                         <div class="p-6">
                                             <h1 class="title-font text-lg font-medium text-gray-900 mb-1 border-b-2 border-gray-300">{{ $product->name }}</h1>
-                                            <h2 class="tracking-widest text-xm title-font font-medium text-gray-800 mb-1 border-b-2 border-gray-300">{{ $product->price }}円</h2>
+                                            <h2 class="tracking-widest text-xm title-font font-medium text-gray-800 mb-1 border-b-2 border-gray-300">{{ number_format($product->price) }}円</h2>
                                             <p class="leading-relaxed mb-3">{{ $product->information }}</p>
                                             <div class="flex items-center flex-wrap ">
                                                 <a href="{{ route('user.products.show',['product' => $product->id ]) }}" class="rounded text-indigo-500 bg-indigo-200 inline-flex items-center md:mb-2 lg:mb-0 p-4">詳細を見る

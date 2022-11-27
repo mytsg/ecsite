@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\ProductController;
 use App\Http\Controllers\User\UserController;
+use App\Http\Controllers\User\LikeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,5 +29,13 @@ Route::resource('products', ProductController::class)
 
 Route::get('/profile/{userId}',[UserController::class,'profile'])
 ->name('profile');
+
+Route::prefix('like')->
+    middleware('auth:users')->group(function(){
+        Route::post('add',[LikeController::class,'add'])->name('like.add');
+        Route::get('/',[LikeController::class,'index'])->name('like.index');
+        Route::get('/likes/{id}',[LikeController::class,'like'])->name('like');
+        Route::get('/unlikes/{id}',[LikeController::class,'unlike'])->name('unlike');
+    });
 
 require __DIR__.'/auth.php';

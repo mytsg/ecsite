@@ -13,8 +13,11 @@
                     <x-nav-link :href="route('user.products.create')" :active="request()->routeIs('user.products.create')">
                         商品の出品
                     </x-nav-link>
-                    <x-nav-link :href="route('user.profile',['userId' => Auth::id()])" :active="request()->routeIs('products.profile')">
+                    <x-nav-link :href="route('user.profile',['userId' => Auth::id()])" :active="request()->routeIs('user.profile')">
                         出品した商品
+                    </x-nav-link>
+                    <x-nav-link :href="route('user.like.index')" :active="request()->routeIs('user.like.index')">
+                        いいねした商品
                     </x-nav-link>
                 </d
             </div>
@@ -72,6 +75,9 @@
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('user.profile',['userId' => Auth::id() ])" :active="request()->routeIs('user.profile')">
                 出品した商品
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('user.like.index')" :active="request()->routeIs('user.like.index')">
+                いいねした商品
             </x-responsive-nav-link>
         </div>
 
