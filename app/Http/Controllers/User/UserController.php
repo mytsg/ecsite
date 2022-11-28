@@ -17,6 +17,7 @@ class UserController extends Controller
         $products = Product::select('id','name','price','filename','user_id','information','is_selling')
                     ->where('user_id',$userId)
                     ->where('is_selling','1')
+                    ->orderBy('created_at','desc')
                     ->paginate(10);
 
         $user = User::findOrFail($userId);

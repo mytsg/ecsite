@@ -51,5 +51,11 @@ class LikeController extends Controller
         return redirect()->back();
     }
 
+    public function delete($id){
+        Like::where('product_id',$id)
+            ->where('user_id',Auth::id())
+            ->delete();
 
+        return redirect()->route('user.like.index');
+    }
 }

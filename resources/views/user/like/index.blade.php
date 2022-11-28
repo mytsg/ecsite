@@ -20,8 +20,13 @@
                                     <div class="mt-4">
                                         <h2 class="text-gray-900 title-font text-lg font-medium">{{ $product->name }}</h2>
                                         <p class="mt-1">{{ number_format( $product->price ) }}円</p>
-                                        <button class="flex ml-auto text-white bg-red-400 border-0 py-2 px-6 focus:outline-none hover:bg-red-500 rounded">いいねを取り消す</button>
                                         
+                                        <form id="delete_{{$product->id}}" method="post" action="{{ route('user.like.delete',['id' => $product->id]) }}">
+                                        @csrf
+                                        <div class="py-2 w-full flex ml-auto">
+                                            <a href="#" data-id="{{ $product->id }}" onclick="deletePost(this)" class="flex ml-auto text-white bg-red-400 border-0 py-2 px-6 focus:outline-none hover:bg-red-500 rounded">いいねを取り消す</a>
+                                        </div>
+                                    </form>
                                     </div>
                                 </div>
                                 @endforeach
@@ -32,4 +37,12 @@
             </div>
         </div>
     </div>
+<script>
+    function deletePost(e) {
+        'use strict';
+        if (confirm('いいねを取り消しますか?')) {
+        document.getElementById('delete_' + e.dataset.id).submit();
+        }
+    }
+</script>
 </x-app-layout>

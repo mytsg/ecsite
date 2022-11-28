@@ -24,7 +24,9 @@
                                     </div>
                                     <div class="flex my-4">
                                         <button type="button" onclick="location.href='{{ route('user.products.index') }}'" class="bg-gray-200 border-0 py-2 px-8 focus:outline-none hover:bg-gray-400 rounded text-lg">商品一覧へ戻る</button>
-                                        <button class="flex ml-auto text-white bg-indigo-400 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-500 rounded">商品を購入する</button>
+                                        @if($product->user_id != Auth::id())
+                                        <button onclick="location.href='{{ route('user.products.checkout',['id'=> $product->id ]) }}'" type="button" class="flex ml-auto text-white bg-indigo-400 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-500 rounded">商品を購入する</button>
+                                        @endif
                                         <form method="post" action="{{ route('user.like.add') }}" >
                                             @csrf
                                             <button class="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4">

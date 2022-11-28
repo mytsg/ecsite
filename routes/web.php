@@ -34,8 +34,15 @@ Route::prefix('like')->
     middleware('auth:users')->group(function(){
         Route::post('add',[LikeController::class,'add'])->name('like.add');
         Route::get('/',[LikeController::class,'index'])->name('like.index');
-        Route::get('/likes/{id}',[LikeController::class,'like'])->name('like');
-        Route::get('/unlikes/{id}',[LikeController::class,'unlike'])->name('unlike');
+        Route::get('/likes/{id}',[LikeController::class,'like'])->name('like.likes');
+        Route::get('/unlikes/{id}',[LikeController::class,'unlike'])->name('like.unlikes');
+        Route::post('/delete/{id}',[LikeController::class,'delete'])->name('like.delete');
     });
+
+Route::get('products/checkout/{id}',[ProductController::class,'checkout'])->name('products.checkout')
+        ->middleware('auth:users');
+
+Route::get('products/success/{id}',[ProductController::class,'success'])->name('products.success')
+        ->middleware('auth:users');
 
 require __DIR__.'/auth.php';

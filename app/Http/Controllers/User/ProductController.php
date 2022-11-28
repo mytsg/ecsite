@@ -24,6 +24,7 @@ class ProductController extends Controller
     {
         $products = Product::select('id','name','user_id','information','filename','price')
                     ->where('is_selling','1')
+                    ->orderBy('created_at','desc')
                     ->paginate(10);
 
                     // 後に->searchKeyword($request->keyword)を実装
@@ -129,6 +130,47 @@ class ProductController extends Controller
     public function destroy($id)
     {
         Product::findOrFail($id)->delete();
+
+        return redirect()->route('user.profile',['userId' => Auth::id()]);
+    }
+
+    public function checkout($id){
+        $product = Product::findOrFail($id);
+
+        $lineItems = [];
+        $lineItem = [
+            'price_data' => [
+            'unit_amount' => $product->price,
+            'currency' => 'JPY',
+
+            'product_data' => [
+                'name' => $product->name,
+                'description' => $product->information,
+            ],
+        ],
+        'quantity' => 1
+    ];
+    array_push($lineItems,$lineItem);
+
+    // dd($lineItems);
+
+    \Stripe\Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
+
+    $session = \Stripe\Checkout\Session::create([
+        'payment_method_types' => ['card'],
+        'line_items' => [$lineItems],
+        'mode' => 'payment',
+        'success_url' => route('user.products.success',['id' => $id]),
+        'cancel_url' => route('user.products.show',['product' => $id])
+    ]);
+
+    $publicKey = env('STRIPE_PUBLIC_KEY');
+
+    return view('user.checkout',compact('session','publicKey','product'));
+    }
+
+    public function success($id){
+        Product::Where('id',$id)->delete();
 
         return redirect()->route('user.products.index');
     }
