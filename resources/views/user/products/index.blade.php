@@ -1,8 +1,20 @@
 <x-app-layout>
     <x-slot name="header">
+        <div class="flex justify-between">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             商品一覧
         </h2>
+        @auth('users')
+        <div class="flex justify-end">
+        <div class="text-center w-36 mt-2 text-white mr-4 items-center bg-green-400 border-0 py-2 px-8 focus:outline-none hover:bg-green-500 rounded text-lg">ログイン中</div>
+        </div>
+        @else
+        <div class="flex justify-end items-center">
+            <a href="{{ route('user.register') }}" class="mt-2 text-white mr-4 items-center bg-blue-400 border-0 py-2 px-8 focus:outline-none hover:bg-blue-500 rounded text-lg">新規登録</a>
+            <a href="{{ route('user.login') }}" class="mt-2 text-white items-center bg-green-400 border-0 py-2 px-8 focus:outline-none hover:bg-green-500 rounded text-lg">ログイン</a>
+        </div>
+        @endauth
+        </div>
     </x-slot>
 
     <div class="py-12">
@@ -14,6 +26,16 @@
                         <div class="flex flex-col text-center w-full mb-20">
                             <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">商品一覧</h1>
                             <p class="lg:w-2/3 mx-auto leading-relaxed text-base">販売中の商品一覧を表示しています。</p>
+                            <form method="get" action="{{ route('user.products.index') }}">
+                                <div class="lg:flex lg:justify-around">
+                                    <div lg:flex items-center>
+                                        <div class="flex space-x-2">
+                                            <div><input name="keyword" placeholder="商品名で検索" class="border border-gray-500 py-2 rounded"></div>
+                                            <div><button class="flex ml-auto text-white bg-indigo-400 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-500 rounded">検索</button></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                         <div class="flex flex-wrap -m-4">
                             @foreach($products as $product)
@@ -37,6 +59,7 @@
                                 </div>
                             @endforeach
                             </div>
+                            {{ $products->links() }}
                         </div>
                     </section>
                 </div>

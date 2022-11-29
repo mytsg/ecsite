@@ -16,9 +16,15 @@ use App\Http\Controllers\User\LikeController;
 |
 */
 
-Route::get('/', function () {
-    return view('user.welcome');
-});
+Route::get('/',[ProductController::class,'index']);
+
+Route::get('/login',function(){
+    return view('use.login');
+})->name('login');
+
+Route::get('/register',function(){
+    return view('user.register');
+})->name('register');
 
 Route::get('/dashboard', function () {
     return view('user.dashboard');

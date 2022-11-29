@@ -16,14 +16,15 @@ use Illuminate\Support\Facades\DB;
 class ProductController extends Controller
 {
     
-    public function __construct(){
-        $this->middleware('auth:users');
-    }
+    // public function __construct(){
+    //     $this->middleware('auth:users');
+    // }
 
     public function index(Request $request)
     {
         $products = Product::select('id','name','user_id','information','filename','price')
                     ->where('is_selling','1')
+                    ->searchKeyWord($request->keyword)
                     ->orderBy('created_at','desc')
                     ->paginate(10);
 
